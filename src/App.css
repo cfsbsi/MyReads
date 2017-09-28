@@ -172,3 +172,8 @@ body, .app {
   text-align: center;
   font-size: 0.8em;
 }
+
+.msg-books {
+  text-align: center;
+  padding-top: 70px;
+}
