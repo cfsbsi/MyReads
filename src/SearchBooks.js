@@ -7,18 +7,32 @@ import * as BooksAPI from './BooksAPI'
 
 class SearchBooks extends React.Component {
 
-    static propTypes = {
-        fetchBooks: PropTypes.func.isRequired
+    constructor(props) {
+        super(props);
+        this.state = {
+            query: '',
+            books: []
+        }
     }
 
-    state = {
-        query: '',
-        books: []
+    static propTypes = {
+        fetchBooks: PropTypes.func.isRequired,
+        classifiedBooks: PropTypes.array.isRequired
     }
 
     findBooks(query) {
         this.setState({query});
-        BooksAPI.search(query).then((books) => this.setState({books}))
+        BooksAPI.search(query).then((books) => {
+
+            books = books.map(book => {
+                const updatedBook = this.props.classifiedBooks.find((b) => {
+                    return book.id === b.id
+                });
+                return updatedBook || book;
+            });
+
+            this.setState({books})
+        })
     }
 
     changeShelf = (shelf, book) => {

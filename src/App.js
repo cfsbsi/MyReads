@@ -6,8 +6,11 @@ import {Route, Link} from 'react-router-dom'
 import './App.css'
 
 class BooksApp extends React.Component {
-    state = {
-        books: []
+    constructor(props) {
+        super(props);
+        this.state = {
+            books: []
+        }
     }
 
     componentDidMount() {
@@ -19,8 +22,7 @@ class BooksApp extends React.Component {
     }
 
     changeShelf = (shelf, book) => {
-        BooksAPI.update(book, shelf)
-        this.fetchMyBooks()
+        BooksAPI.update(book, shelf).then(() => this.fetchMyBooks())
     }
 
     render() {
@@ -57,7 +59,7 @@ class BooksApp extends React.Component {
                 )}/>
 
                 <Route exact path="/search" render={() => (
-                    <SearchBooks fetchBooks={this.fetchMyBooks}/>
+                    <SearchBooks classifiedBooks={this.state.books} fetchBooks={this.fetchMyBooks}/>
                 )}/>
             </div>
         );
